@@ -14,26 +14,33 @@ import {
 import "../App.css";
 import { updateUserDetails } from "../redux/Action";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
  function Register(props) {
 
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
+  const [email, setEmail] = useState("");
   const [userData, setUserData] = useState([]);
 
   const registerForm = () => {
     let obj = {
         username: username,
         password: password,
-        userType: userType
+        userType: userType,
+        email    : email
       };
   
       let arr = Object.assign([], props.user);
       arr.push(obj);
       setUserData(arr);
       props.updateUserDetails(arr);
-
+      setUserData(arr)
+      setUserName("")
+      setPassword("")
+      setUserType("")
+      setEmail("")
   }
   return (
     <Container
@@ -58,7 +65,7 @@ import { connect } from "react-redux";
                 Create account
               </h2>
               <h5>
-                Already have an account?<a href="">login</a>
+                Already have an account?<Link to="/login">login </Link>
               </h5>
             </Row>
             <Row>
@@ -78,7 +85,15 @@ import { connect } from "react-redux";
                 >
                   <option value='admin'>Admin</option>
                   <option value='user'>User</option>
-                </Input> 
+                </Input>
+                <Input
+                type="email"
+                style={{ marginBottom: 10, marginTop: 10 }}
+                placeholder="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
 
                 <Input
                   type="password"
