@@ -40,7 +40,7 @@ import { Link } from "react-router-dom";
       setUserName("")
       setPassword("")
       setUserType("")
-      setEmail("")
+      setEmail ("")
   }
   return (
     <Container
