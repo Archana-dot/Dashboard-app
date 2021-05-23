@@ -16,32 +16,34 @@ import { updateUserDetails } from "../redux/Action";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
- function Register(props) {
-
+function Register(props) {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState("admin");
   const [email, setEmail] = useState("");
+  const [department, setDepartment] = useState("");
   const [userData, setUserData] = useState([]);
 
   const registerForm = () => {
     let obj = {
-        username: username,
-        password: password,
-        userType: userType,
-        email    : email
-      };
-  
-      let arr = Object.assign([], props.user);
-      arr.push(obj);
-      setUserData(arr);
-      props.updateUserDetails(arr);
-      setUserData(arr)
-      setUserName("")
-      setPassword("")
-      setUserType("")
-      setEmail ("")
-  }
+      username: username,
+      password: password,
+      userType: userType,
+      email: email,
+      department : department
+    };
+
+    let arr = Object.assign([], props.user);
+    arr.push(obj);
+    setUserData(arr);
+    props.updateUserDetails(arr);
+    setUserData(arr);
+    setUserName("");
+    setPassword("");
+    setUserType("");
+    setEmail("");
+    setDepartment("");
+  };
   return (
     <Container
       className="form-container"
@@ -54,7 +56,6 @@ import { Link } from "react-router-dom";
       }}
       fluid
     >
-    {console.log('user',props.user)}
       <Row className="box-shadow">
         <Col>
           <Form>
@@ -77,23 +78,45 @@ import { Link } from "react-router-dom";
                   onChange={(e) => {
                     setUserName(e.target.value);
                   }}
+                  value={username}
                 />
-                <Input type="select" name="select" id="exampleSelect"
-                onChange={(e) => {
+                <Input
+                  type="select"
+                  name="select"
+                  id="exampleSelect"
+                  style={{ marginBottom: 10, marginTop: 10 }}
+                  onChange={(e) => {
                     setUserType(e.target.value);
                   }}
-                >
-                  <option value='admin'>Admin</option>
-                  <option value='user'>User</option>
+                  value={userType}
+                  > <Label>usertype</Label>
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
                 </Input>
+                {userType === "user" ? 
+                  <Input
+                    type="select"
+                    name="select"
+                    id="exampleSelect"
+                    style={{ marginBottom: 10, marginTop: 10 }}
+                    onChange={(e) => {
+                      setDepartment(e.target.value);
+                    }}
+                    value={department}
+                  >
+                    <option value="cs">CS</option>
+                    <option value="it">IT</option>
+                  </Input>
+                 : null}
                 <Input
-                type="email"
-                style={{ marginBottom: 10, marginTop: 10 }}
-                placeholder="email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
+                  type="email"
+                  style={{ marginBottom: 10, marginTop: 10 }}
+                  placeholder="email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
+                />
 
                 <Input
                   type="password"
@@ -102,11 +125,12 @@ import { Link } from "react-router-dom";
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
+                  value={password}
                 />
                 <Button
                   color="primary"
                   style={{ width: "100%", marginTop: 10 }}
-                  onClick={() => registerForm ()}
+                  onClick={() => registerForm()}
                 >
                   Register
                 </Button>
@@ -119,17 +143,15 @@ import { Link } from "react-router-dom";
   );
 }
 const mapStateToProps = (state) => {
-    return {
-      user: state.user,
-      
-    };
+  return {
+    user: state.user,
   };
-  const mapDispatchToProps = (dispatch) =>{
-      
-      return{
-      updateUserDetails: (s) => { dispatch(updateUserDetails(s)) },
-      
-  }
-     };
-  export default connect(mapStateToProps, mapDispatchToProps)(Register);
-  
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUserDetails: (s) => {
+      dispatch(updateUserDetails(s));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

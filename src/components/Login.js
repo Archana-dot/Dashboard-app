@@ -21,6 +21,7 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const History = useHistory();
 
+  localStorage.setItem('name', userName)
   const LoginForm = () => {
     
     props.user.forEach((item) => {
